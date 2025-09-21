@@ -96,15 +96,7 @@ body {
     color: black;
     word-wrap: break-word;
 }
-.notepad {
-    background-image: url("fondo.jpg"); /* tu imagen de fondo */
-    background-size: cover;   /* hace que cubra todo el bloque */
-    background-position: center; /* centra la imagen */
-    background-repeat: no-repeat; /* evita repeticiones */
-    color: white; /* mantiene el texto visible */
-    padding: 50px;
-    border-radius: 10px;
-}
+
 
 .notepad h3 { margin-top: 0; color: white; }
 
@@ -119,14 +111,26 @@ body {
     margin: 20px auto;
 }
 
-.note-img { 
-    width: 100%; 
-    max-width: 900px; 
-    height: auto; 
-    border-radius: 15px; 
-    margin-bottom: 15px; 
-    box-shadow: 4px 4px 12px rgba(0,0,0,0.2); 
+.note-img-rounded {
+    width: 90%;          
+    max-width: 600px;    
+    height: auto;        
+    max-height: 95vh;     /* 🔹 nunca ocupa más del 70% de la altura de la pantalla */
+    border-radius: 30px;
+    display: block;
+    margin: 0 auto 20px;
+    box-shadow: 4px 4px 12px rgba(0,0,0,0.2);
+    object-fit: cover;    /* 🔹 recorta la imagen si es muy alta */
 }
+
+@media (max-width: 600px) {
+    .note-img-rounded {
+        width: 100%;      
+        max-height: 50vh;  /* 🔹 en celulares ocupa máximo la mitad de la pantalla */
+        border-radius: 20px;
+    }
+}
+
 
 .back-btn {
     display: inline-block;
@@ -139,6 +143,11 @@ body {
     cursor: pointer;
     box-shadow: 4px 4px 8px rgba(0,0,0,0.15);
     transition: all 0.2s ease;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-20%);
+    z-index: 10;
 }
 
 .back-btn:hover {
@@ -189,10 +198,8 @@ h4,p { color: white; }
 <!-- Pantalla de carta -->
 <div id="notepadScreen" class="screen">
     <div class="notepad">
-        <img src="imagen 2.jpg".jpg" alt="Imagen decorativa" class="password-img">
-        <h3><b>21 Septiembre 2025</b></h3>
-        <h4><b>d•uñas<b></h4>
-<p>🌟<b>Feliz aniversario</b>🌟</p>
+    <img src="imagen 2.jpg" alt="Carta" class="note-img-rounded">
+    <div class="notepad">
         <button class="back-btn" id="backBtn">🔙</button>
     </div>
 </div>
