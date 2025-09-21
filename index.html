@@ -115,21 +115,23 @@ body {
     width: 90%;          
     max-width: 600px;    
     height: auto;        
-    max-height: 95vh;     /* 🔹 nunca ocupa más del 70% de la altura de la pantalla */
+    max-height: 50vh;       /* en pantallas grandes, ocupa como máximo 50% del alto de la ventana */
     border-radius: 30px;
     display: block;
     margin: 0 auto 20px;
     box-shadow: 4px 4px 12px rgba(0,0,0,0.2);
-    object-fit: cover;    /* 🔹 recorta la imagen si es muy alta */
+    object-fit: cover;      /* recorta proporcionalmente si es muy alta */
 }
 
 @media (max-width: 600px) {
     .note-img-rounded {
-        width: 100%;      
-        max-height: 50vh;  /* 🔹 en celulares ocupa máximo la mitad de la pantalla */
+        width: 100%;       
+        max-width: 100%;    
+        max-height: 40vh;    /* ocupa máximo 40% de la altura en celular */
         border-radius: 20px;
     }
 }
+
 
 
 .back-btn {
