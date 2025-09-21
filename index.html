@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>d•uñas</title>
-<link rel="icon" type="image/png" href="favicon.png">
+<link rel="icon" type="favicon.png" href="favicon.png"/>   
 <style>
 /* === ESTILOS RESPONSIVE === */
 body {
@@ -12,7 +12,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: rgba(245, 216, 132, 0.2);
-    overflow-x: hidden;
+    overflow-x: hidden; /* evita scroll horizontal */
 }
 
 .stars, .hearts {
@@ -25,17 +25,28 @@ body {
     z-index: 1;
 }
 
-/* Corazones */
-.heart{
-    position: absolute;
-    animation: fall linear forwards;
-    color: #32CD32; /* verde */
-}
-@keyframes fall{
-    to{ transform: translateY(100vh); opacity: 0; }
+.stars {
+    color: black;
+    opacity: 0.8;
+    font-size: 4px;
+    animation: starFall linear forwards;
 }
 
-/* Pantallas */
+@keyframes starFall {
+    0%{ transform: translateY(0); opacity: 0.8; }
+    100%{ transform: translateY(110vh); opacity: 0; }
+}
+
+.heart {
+    position: absolute;
+    animation: fall linear forwards;
+    color: rgba(0,255,0,0.6); /* corazones verdes */
+}
+
+@keyframes fall {
+    to { transform: translateY(100vh); opacity: 0; }
+}
+
 .screen {
     display: none;
     justify-content: center;
@@ -45,12 +56,14 @@ body {
     flex-direction: column;
     position: relative;
     z-index: 2;
-    padding: 0 10px;
+    padding: 20px;
     box-sizing: border-box;
 }
+
 .active { display: flex; }
 
-/* Teclado de contraseña */
+.password-screen { flex-direction: column; }
+
 .keypad {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -59,6 +72,7 @@ body {
     width: 100%;
     max-width: 200px;
 }
+
 .key {
     background-color: #ffee26a6;
     border: none;
@@ -69,10 +83,12 @@ body {
     transition: all 0.2s ease;
     box-shadow: 4px 4px 8px rgba(0,0,0,0.15);
 }
+
 .key:hover {
     background-color: #e6f0f5;
     transform: translateY(-3px);
 }
+
 .input-display {
     font-size: 20px;
     margin-top: 20px;
@@ -81,49 +97,58 @@ body {
     word-wrap: break-word;
 }
 
-/* Carta */
+/* === NOTEPAD / GIFT CARD === */
 .notepad {
     width: 90%;
     max-width: 600px;
     margin: 20px auto;
-    padding: 0;
+    padding: 20px;
     text-align: center;
     border-radius: 30px;
     box-shadow: 4px 4px 12px rgba(0,0,0,0.2);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
+    background-color: transparent;
 }
+
 .note-img-rounded {
     width: 100%;
     height: auto;
-    max-height: 80vh;
-    border-radius: 30px 30px 0 0;
-    object-fit: cover;
+    max-height: 50vh;
+    border-radius: 30px;
     display: block;
+    margin: 0 auto 20px;
+    object-fit: cover;
+    box-shadow: 4px 4px 12px rgba(0,0,0,0.2);
 }
+
 .back-btn {
-    width: 100%;
-    padding: 15px;
-    margin: 0;
-    border-radius: 0 0 30px 30px;
-    box-sizing: border-box;
-    cursor: pointer;
+    display: inline-block;
+    margin-top: 10px;
     background-color: #dad5cb;
     border: none;
+    padding: 10px 20px;
     font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
     box-shadow: 4px 4px 8px rgba(0,0,0,0.15);
     transition: all 0.2s ease;
 }
+
 .back-btn:hover {
     background-color: #cb2a2a;
     transform: translateY(-2px);
 }
 
-/* Media queries */
+/* === RESPONSIVE === */
 @media (max-width: 600px) {
-    .notepad { width: 95%; }
-    .note-img-rounded { max-height: 60vh; }
+    .notepad {
+        width: 95%;
+        padding: 15px;
+        border-radius: 20px;
+    }
+    .note-img-rounded {
+        max-height: 40vh;
+        border-radius: 20px;
+    }
 }
 </style>
 </head>
@@ -134,7 +159,7 @@ body {
 
 <!-- Pantalla de contraseña -->
 <div id="passwordScreen" class="screen password-screen active">
-    <img src="imagen1.jpg" alt="Imagen decorativa" class="password-img">
+    <img src="imagen 1.jpg" alt="Imagen decorativa" class="password-img">
     <h2>🔒 Ingresa la contraseña</h2>
     <div class="input-display" id="inputDisplay">••••</div>
     <div class="keypad">
@@ -153,18 +178,19 @@ body {
     </div>
 </div>
 
-<!-- Pantalla de carta -->
+<!-- Pantalla de gift card -->
 <div id="notepadScreen" class="screen">
     <div class="notepad">
-        <img src="imagen2.jpg" alt="Carta" class="note-img-rounded">
-        <button class="back-btn" id="backBtn">🔙 Inicio</button>
+        <img src="imagen 2.jpg" alt="Gift Card" class="note-img-rounded">
+        <button class="back-btn" id="backBtn">🔙 Volver</button>
     </div>
 </div>
 
 <script>
-/* Contraseña */
+/*  JAVASCRIPT EFECTOS  */
 const correctPassword = '2024';
 let input = '';
+
 const passwordScreen = document.getElementById('passwordScreen');
 const notepadScreen = document.getElementById('notepadScreen');
 const inputDisplay = document.getElementById('inputDisplay');
@@ -180,19 +206,10 @@ document.getElementById('backBtn').addEventListener('click', goBack);
 
 function updateDisplay(){ inputDisplay.textContent = input.padEnd(4,'•'); }
 function checkPassword(){ 
-    if(input===correctPassword){ 
-        passwordScreen.classList.remove('active'); 
-        notepadScreen.classList.add('active'); 
-    } else { 
-        alert('Contraseña incorrecta'); 
-        input=''; updateDisplay(); 
-    } 
+    if(input===correctPassword){ passwordScreen.classList.remove('active'); notepadScreen.classList.add('active'); }
+    else { alert('Contraseña incorrecta'); input=''; updateDisplay(); } 
 }
-function goBack(){ 
-    notepadScreen.classList.remove('active'); 
-    passwordScreen.classList.add('active'); 
-    input=''; updateDisplay(); 
-}
+function goBack(){ notepadScreen.classList.remove('active'); passwordScreen.classList.add('active'); input=''; updateDisplay(); }
 
 /* Teclado físico */
 document.addEventListener('keydown', e => {
@@ -201,7 +218,7 @@ document.addEventListener('keydown', e => {
     else if(e.key==='Enter'){ checkPassword(); }
 });
 
-/* Corazones */
+/* Corazones verdes */
 function crearCorazones(){ 
     const heartsContainer=document.querySelector('.hearts'); 
     setInterval(()=>{
@@ -221,7 +238,7 @@ function crearEstrellas(){
     setInterval(()=>{
         const ancho = window.innerWidth, alto = window.innerHeight;
         const star = document.createElement('img');
-        star.src = "icono.ico";
+        star.src = "icono.ico"; // icono personalizado
         star.style.position = 'fixed';
         star.style.left = Math.random() * ancho + 'px';
         star.style.top = '-20px';
@@ -229,14 +246,14 @@ function crearEstrellas(){
         star.style.height = 'auto';
         star.style.zIndex = 0;
         document.body.appendChild(star);
+
         const duracion = (Math.random() * 10 + 5) * 1000;
         star.animate(
-            [
-                { transform: 'translateY(0px)', opacity: 1 },
-                { transform: `translateY(${alto + 20}px)`, opacity: 0 }
-            ],
+            [{ transform: 'translateY(0px)', opacity: 1 },
+             { transform: `translateY(${alto + 20}px)`, opacity: 0 }],
             { duration: duracion, easing: 'linear' }
         );
+
         setTimeout(() => star.remove(), duracion);
     }, 300);
 }
@@ -244,3 +261,5 @@ crearEstrellas();
 </script>
 </body>
 </html>
+
+      
