@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>d•uñas</title>
-<link rel = "icon" type="favicon.png" href="favicon.png"/>   
+<link rel="icon" type="favicon.png" href="favicon.png"/>   
 <style>
 /* === ESTILOS RESPONSIVE === */
 body {
@@ -25,33 +25,33 @@ body {
     z-index: 1;
 }
 
-.stars{
+.stars {
     color: black;
     opacity: 0.8;
     font-size: 4px;
     animation: starFall linear forwards;
 }
 
-@keyframes starFall{
+@keyframes starFall {
     0%{ transform: translateY(0); opacity: 0.8; }
     100%{ transform: translateY(110vh); opacity: 0; }
 }
 
-.heart{
+.heart {
     position: absolute;
     animation: fall linear forwards;
-    color: rgba(255,0,0,0.6);
+    color: rgba(0,255,0,0.6); /* corazones verdes */
 }
 
-@keyframes fall{
-    to{ transform: translateY(100vh); opacity: 0; }
+@keyframes fall {
+    to { transform: translateY(100vh); opacity: 0; }
 }
 
 .screen {
     display: none;
     justify-content: center;
     align-items: center;
-    min-height: 100vh; /* que ocupe al menos toda la pantalla */
+    min-height: 100vh;
     text-align: center;
     flex-direction: column;
     position: relative;
@@ -97,46 +97,32 @@ body {
     word-wrap: break-word;
 }
 
-
-.notepad h3 { margin-top: 0; color: white; }
-
-.password-img {
+/* === NOTEPAD / GIFT CARD === */
+.notepad {
     width: 90%;
-    max-width: 270px;
-    height: auto;
-    object-fit: cover;
-    border-radius: 15px;
-    box-shadow: 6px 6px 15px rgba(0,0,0,0.3);
-    display: block;
+    max-width: 600px;
     margin: 20px auto;
+    padding: 20px;
+    text-align: center;
+    border-radius: 30px;
+    box-shadow: 4px 4px 12px rgba(0,0,0,0.2);
+    background-color: transparent;
 }
 
 .note-img-rounded {
-    width: 90%;          
-    max-width: 600px;    
-    height: auto;        
-    max-height: 50vh;       /* en pantallas grandes, ocupa como máximo 50% del alto de la ventana */
+    width: 100%;
+    height: auto;
+    max-height: 50vh;
     border-radius: 30px;
     display: block;
     margin: 0 auto 20px;
+    object-fit: cover;
     box-shadow: 4px 4px 12px rgba(0,0,0,0.2);
-    object-fit: cover;      /* recorta proporcionalmente si es muy alta */
 }
-
-@media (max-width: 600px) {
-    .note-img-rounded {
-        width: 100%;       
-        max-width: 100%;    
-        max-height: 40vh;    /* ocupa máximo 40% de la altura en celular */
-        border-radius: 20px;
-    }
-}
-
-
 
 .back-btn {
     display: inline-block;
-    margin-top: 15px;
+    margin-top: 10px;
     background-color: #dad5cb;
     border: none;
     padding: 10px 20px;
@@ -145,11 +131,6 @@ body {
     cursor: pointer;
     box-shadow: 4px 4px 8px rgba(0,0,0,0.15);
     transition: all 0.2s ease;
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-20%);
-    z-index: 10;
 }
 
 .back-btn:hover {
@@ -157,17 +138,17 @@ body {
     transform: translateY(-2px);
 }
 
-h2 { color: black; }
-    
-h4,p { color: white; }
-
 /* === RESPONSIVE === */
-@media (max-width: 800px) {
-    .notepad { 
-        padding: 15px; 
-        font-size: 20px;
+@media (max-width: 600px) {
+    .notepad {
+        width: 95%;
+        padding: 15px;
+        border-radius: 20px;
     }
-    .input-display { font-size: 18px; }
+    .note-img-rounded {
+        max-height: 40vh;
+        border-radius: 20px;
+    }
 }
 </style>
 </head>
@@ -197,12 +178,11 @@ h4,p { color: white; }
     </div>
 </div>
 
-<!-- Pantalla de carta -->
+<!-- Pantalla de gift card -->
 <div id="notepadScreen" class="screen">
     <div class="notepad">
-    <img src="imagen 2.jpg" alt="Carta" class="note-img-rounded">
-    <div class="notepad">
-        <button class="back-btn" id="backBtn">🔙</button>
+        <img src="imagen 2.jpg" alt="Gift Card" class="note-img-rounded">
+        <button class="back-btn" id="backBtn">🔙 Volver</button>
     </div>
 </div>
 
@@ -238,7 +218,7 @@ document.addEventListener('keydown', e => {
     else if(e.key==='Enter'){ checkPassword(); }
 });
 
-/* Corazones */
+/* Corazones verdes */
 function crearCorazones(){ 
     const heartsContainer=document.querySelector('.hearts'); 
     setInterval(()=>{
@@ -252,63 +232,32 @@ function crearCorazones(){
     },500);
 }
 crearCorazones();
+
 /* Estrellas personalizadas */
 function crearEstrellas(){ 
-    // Ejecuta la función repetidamente cada 300 milisegundos (0,3s)
     setInterval(()=>{
-        // Obtiene el ancho y alto actual de la ventana
         const ancho = window.innerWidth, alto = window.innerHeight;
-
-        // Crea un elemento <img> que será la "estrella"
         const star = document.createElement('img');
-
-        // Le asigna la imagen personalizada que vos quieras
-        star.src = "icono.ico"; // tu icono personalizado
-
-        // Posiciona la estrella de forma absoluta en la pantalla
+        star.src = "icono.ico"; // icono personalizado
         star.style.position = 'fixed';
-
-        // Ubicación horizontal aleatoria (entre 0 y el ancho de la pantalla)
         star.style.left = Math.random() * ancho + 'px';
-
-        // Empieza un poco por encima de la pantalla (-20px)
         star.style.top = '-20px';
-
-        // Da un tamaño aleatorio a cada estrella (entre 10px y 30px aprox.)
         star.style.width = (Math.random() * 20 + 10) + 'px';
-
-        // Mantiene proporción de la imagen
         star.style.height = 'auto';
-
-        // Lo manda al fondo (detrás del resto del contenido)
         star.style.zIndex = 0;
-
-        // Agrega la estrella al documento (aparece en la página)
         document.body.appendChild(star);
 
-        // Define cuánto tarda en caer la estrella (entre 5 y 15 segundos)
         const duracion = (Math.random() * 10 + 5) * 1000;
-
-        // Anima la caída de la estrella:
-        // - Empieza en la parte superior con opacidad 1
-        // - Termina más abajo de la pantalla (alto + 20px) y opacidad 0
         star.animate(
-            [
-                { transform: 'translateY(0px)', opacity: 1 },
-                { transform: `translateY(${alto + 20}px)`, opacity: 0 }
-            ],
-            { duration: duracion, easing: 'linear' } // velocidad constante
+            [{ transform: 'translateY(0px)', opacity: 1 },
+             { transform: `translateY(${alto + 20}px)`, opacity: 0 }],
+            { duration: duracion, easing: 'linear' }
         );
 
-        // Una vez que termina la animación, elimina la estrella del DOM
         setTimeout(() => star.remove(), duracion);
-
-    }, 300); // Crea una nueva estrella cada 300ms
+    }, 300);
 }
-
-// Llama a la función para que empiece a crear las estrellas
 crearEstrellas();
-
 </script>
 </body>
 </html>
